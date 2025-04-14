@@ -145,7 +145,7 @@
                                 <configuration>
                                     <inputSpec>${project.build.directory}/generated-resources/openapi/openapi.yaml</inputSpec>
                                     <generatorName>typescript-angular</generatorName>
-                                    <output>${project.basedir}/frontend/src/app/generated</output>
+                                    <output>${project.basedir}/frontend/app/src/generated</output>
                                     <additionalProperties>
                                         <stringEnums>true</stringEnums>
                                         <serviceSuffix>Service</serviceSuffix>
