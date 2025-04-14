@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <h1 class="text-center mb-4">{{ title }}</h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          Inventory
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li *ngFor="let item of inventory" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ item.name }}
+              <span class="badge bg-secondary">x{{ item.quantity }}</span>
+            </li>
+          </ul>
+          <button class="btn btn-success mt-3" (click)="addItem('New Item', 1)">Add New Item</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          Money
+        </div>
+        <div class="card-body">
+          <p>Gold: <span class="badge bg-warning text-dark">{{ money.gold }}</span></p>
+          <p>Silver: <span class="badge bg-secondary">{{ money.silver }}</span></p>
+          <p>Copper: <span class="badge bg-danger">{{ money.copper }}</span></p>
+
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="Gold" [(ngModel)]="customGold">
+            <input type="number" class="form-control" placeholder="Silver" [(ngModel)]="customSilver">
+            <input type="number" class="form-control" placeholder="Copper" [(ngModel)]="customCopper">
+          </div>
+
+          <button class="btn btn-primary me-2" (click)="addCustomMoney(customGold, customSilver, customCopper)">Add Money</button>
+          <button class="btn btn-danger" (click)="subtractCustomMoney(customGold, customSilver, customCopper)">Subtract Money</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

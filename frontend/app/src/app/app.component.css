@@ -1,0 +1,51 @@
+/* Unified layout with a blue color theme */
+.app-container {
+  padding: 20px;
+  background-color: #f0f8ff; /* Light blue background */
+  color: #003366; /* Dark blue text */
+}
+
+.card {
+  border: 1px solid #003366; /* Dark blue border */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #ffffff; /* White card background */
+}
+
+.card-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  background-color: #003366; /* Unified dark blue header background */
+  color: #ffffff; /* White text */
+  padding: 10px;
+  border-bottom: 1px solid #002244; /* Slightly darker blue border */
+}
+
+.card-body {
+  font-size: 1rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+  background-color: #003366; /* Dark blue button background */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #002244; /* Slightly darker blue on hover */
+}
