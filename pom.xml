@@ -44,6 +44,10 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
@@ -127,7 +131,6 @@
         <profile>
             <id>generate-angular-services</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>

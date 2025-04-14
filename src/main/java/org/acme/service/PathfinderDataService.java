@@ -2,28 +2,51 @@ package org.acme.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
-import java.io.IOException;
-import java.nio.file.*;
+import java.io.*;
 import java.util.*;
+import org.acme.model.PathfinderItem;
 
 @ApplicationScoped
 public class PathfinderDataService {
-
     private static final String RESOURCES_PATH = "resources";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<Map<String, Object>> loadAllJsonFiles() {
-        List<Map<String, Object>> dataList = new ArrayList<>();
+    private String normalizeItemName(String name) {
+        return name.toLowerCase()
+                  .replace("'", "")
+                  .replace(" ", "-");
+    }
+
+    public List<PathfinderItem> loadAllJsonFiles() {
+        List<PathfinderItem> dataList = new ArrayList<>();
         try {
-            Path resourcesDir = Paths.get(RESOURCES_PATH);
-            DirectoryStream<Path> stream = Files.newDirectoryStream(resourcesDir, "*.json");
-            for (Path entry : stream) {
-                Map<String, Object> data = objectMapper.readValue(entry.toFile(), Map.class);
-                dataList.add(data);
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream dirStream = classLoader.getResourceAsStream(RESOURCES_PATH);
+            if (dirStream != null) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(dirStream))) {
+                    String filename;
+                    while ((filename = reader.readLine()) != null) {
+                        if (filename.endsWith(".json")) {
+                            try (InputStream fileStream = classLoader.getResourceAsStream(RESOURCES_PATH + "/" + filename)) {
+                                if (fileStream != null) {
+                                    PathfinderItem item = objectMapper.readValue(fileStream, PathfinderItem.class);
+                                    dataList.add(item);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return dataList;
+    }
+
+    public Optional<PathfinderItem> findItemByName(String searchName) {
+        String normalizedSearchName = normalizeItemName(searchName);
+        return loadAllJsonFiles().stream()
+                .filter(item -> normalizeItemName(item.getName()).equals(normalizedSearchName))
+                .findFirst();
     }
 }
