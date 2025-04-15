@@ -5,11 +5,20 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.io.*;
 import java.util.*;
 import org.acme.model.PathfinderItem;
+import java.net.URL;
+import jakarta.inject.Inject;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @ApplicationScoped
+@RegisterForReflection
 public class PathfinderDataService {
-    private static final String RESOURCES_PATH = "resources";
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String RESOURCES_DIR = "resources";
+    private final ObjectMapper objectMapper;
+
+    @Inject
+    public PathfinderDataService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     private String normalizeItemName(String name) {
         return name.toLowerCase()
@@ -18,19 +27,19 @@ public class PathfinderDataService {
     }
 
     public List<PathfinderItem> loadAllJsonFiles() {
-        List<PathfinderItem> dataList = new ArrayList<>();
+        List<PathfinderItem> items = new ArrayList<>();
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            InputStream dirStream = classLoader.getResourceAsStream(RESOURCES_PATH);
-            if (dirStream != null) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(dirStream))) {
-                    String filename;
-                    while ((filename = reader.readLine()) != null) {
-                        if (filename.endsWith(".json")) {
-                            try (InputStream fileStream = classLoader.getResourceAsStream(RESOURCES_PATH + "/" + filename)) {
-                                if (fileStream != null) {
-                                    PathfinderItem item = objectMapper.readValue(fileStream, PathfinderItem.class);
-                                    dataList.add(item);
+            InputStream resourceStream = classLoader.getResourceAsStream(RESOURCES_DIR);
+            if (resourceStream != null) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(resourceStream))) {
+                    String resource;
+                    while ((resource = reader.readLine()) != null) {
+                        if (resource.endsWith(".json")) {
+                            try (InputStream jsonStream = classLoader.getResourceAsStream(RESOURCES_DIR + "/" + resource)) {
+                                if (jsonStream != null) {
+                                    PathfinderItem item = objectMapper.readValue(jsonStream, PathfinderItem.class);
+                                    items.add(item);
                                 }
                             }
                         }
@@ -40,7 +49,7 @@ public class PathfinderDataService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dataList;
+        return items;
     }
 
     public Optional<PathfinderItem> findItemByName(String searchName) {
