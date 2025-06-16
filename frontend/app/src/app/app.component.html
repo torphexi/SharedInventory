@@ -94,11 +94,11 @@
             <div *ngIf="selectedItemDetails.size">
               <strong>Size:</strong> {{ selectedItemDetails.size }}
             </div>
-            <div *ngIf="selectedItemDetails.traits?.value">
-              <strong>Traits:</strong> {{ selectedItemDetails.traits.value.join(', ') }}
+            <div *ngIf="selectedItemDetails.traits?.values?.length">
+              <strong>Traits:</strong> {{ selectedItemDetails.traits?.values?.join(', ') }}
             </div>
-            <div *ngIf="selectedItemDetails.usage?.value">
-              <strong>Usage:</strong> {{ selectedItemDetails.usage.value }}
+            <div *ngIf="selectedItemDetails.usage">
+              <strong>Usage:</strong> {{ selectedItemDetails.usage }}
             </div>
             <div *ngIf="selectedItemDetails.material">
               <strong>Material:</strong> {{ selectedItemDetails.material.type }}
