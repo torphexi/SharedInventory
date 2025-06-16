@@ -16,6 +16,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        - API_BASE_PATH=http://localhost
     ports:
       - "80:80"
     depends_on:

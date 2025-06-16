@@ -1,9 +1,21 @@
 # Build stage
 FROM node:20-alpine as build
 WORKDIR /app
+
+# Build arguments
+ARG API_BASE_PATH=http://localhost
+
+# Copy package files and install dependencies
 COPY frontend/app/package*.json ./
 RUN npm install
+
+# Copy source files
 COPY frontend/app/ .
+
+# Replace environment variables
+RUN sed -i "s|\${API_BASE_PATH}|$API_BASE_PATH|g" src/environments/environment.prod.ts
+
+# Build the application
 RUN npm run build
 
 # Production stage
