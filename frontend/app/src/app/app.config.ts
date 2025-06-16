@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: "http://localhost:4200", // Updated to include /api for all endpoints
+    basePath: "http://localhost", // Updated to include /api for all endpoints
   };
   return new Configuration(params);
 }

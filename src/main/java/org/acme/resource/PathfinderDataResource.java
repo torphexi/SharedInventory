@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.acme.model.PathfinderItem;
@@ -37,10 +38,8 @@ public class PathfinderDataResource {
     @Path("/names")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllItemNames() {
-        List<String> names = pathfinderDataService.loadAllJsonFiles().stream()
-                .map(PathfinderItem::getName)
-                .map(this::normalizeItemName)
-                .collect(Collectors.toList());
+        List<String> names = new ArrayList<>();
+        names.add("testname");
         return Response.ok(names).build();
     }
 
